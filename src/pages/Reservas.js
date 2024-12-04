@@ -31,6 +31,7 @@ function Reservas() {
       return;
     }
 
+    // Enviando a reserva para o backend
     api.post('/api/reservas', novaReserva)
       .then((response) => {
         setReservas([...reservas, response.data]);
