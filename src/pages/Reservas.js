@@ -17,8 +17,8 @@ function Reservas() {
   useEffect(() => {
     api.get('/api/reservas')
       .then((response) => {
-        setReservas(response.data);
-        setReservasFiltradas(response.data);
+        setReservas(response.data || []); // Adiciona um array vazio se a resposta for indefinida
+        setReservasFiltradas(response.data || []);
       })
       .catch(() => setErro('Erro ao buscar reservas.'));
   }, []);
@@ -61,7 +61,7 @@ function Reservas() {
     } else {
       setReservasFiltradas(
         reservas.filter((reserva) =>
-          reserva.item.nome.toLowerCase().includes(nomeBusca.toLowerCase())
+          reserva.item && reserva.item.nome && reserva.item.nome.toLowerCase().includes(nomeBusca.toLowerCase())
         )
       );
     }
@@ -134,10 +134,10 @@ function Reservas() {
         <ul className="lista-reservas">
           {reservasFiltradas.map((reserva) => (
             <li key={reserva.id} className="reserva-card">
-              <p><strong>Local:</strong> {reserva.item.nome}</p>
-              <p><strong>Descrição:</strong> {reserva.item.descricao}</p>
-              <p><strong>Data e Hora:</strong> {reserva.dataHora}</p>
-              <p><strong>Usuário:</strong> {reserva.nomeUsuario}</p>
+              <p><strong>Local:</strong> {reserva.item && reserva.item.nome ? reserva.item.nome : 'Nome não disponível'}</p>
+              <p><strong>Descrição:</strong> {reserva.item && reserva.item.descricao ? reserva.item.descricao : 'Descrição não disponível'}</p>
+              <p><strong>Data e Hora:</strong> {reserva.dataHora || 'Data não disponível'}</p>
+              <p><strong>Usuário:</strong> {reserva.nomeUsuario || 'Usuário não disponível'}</p>
               <button className="botao" onClick={() => handleDelete(reserva.id)}>Deletar</button>
             </li>
           ))}
