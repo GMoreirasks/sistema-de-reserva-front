@@ -35,10 +35,10 @@ function Reservas() {
     console.log('Dados enviados:', novaReserva);
 
     // Enviando a reserva para o backend com cabeçalho Content-Type configurado
-    api.post('/api/reservas', novaReserva, {
+    api.post('/api/reservas', JSON.stringify(novaReserva), {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
     .then((response) => {
       console.log('Resposta da API:', response.data);
@@ -51,6 +51,7 @@ function Reservas() {
       console.error('Erro detalhado ao criar reserva:', error.response || error);
       setErro('Erro ao criar reserva.');
     });
+    
   };
 
   // Deletar reserva
