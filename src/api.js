@@ -1,7 +1,8 @@
+
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080', // URL do seu backend
+  baseURL: 'https://backsistemareserva.onrender.com', // URL do seu backend hospedado no Render
 });
 
 export default api;
