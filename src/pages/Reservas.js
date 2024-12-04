@@ -31,15 +31,26 @@ function Reservas() {
       return;
     }
 
-    // Enviando a reserva para o backend
-    api.post('/api/reservas', novaReserva)
-      .then((response) => {
-        setReservas((prevReservas) => [...prevReservas, response.data]);
-        setReservasFiltradas((prevReservasFiltradas) => [...prevReservasFiltradas, response.data]);
-        setNovaReserva({ item: { nome: '', descricao: '' }, dataHora: '', nomeUsuario: '' });
-        setErro('');
-      })
-      .catch(() => setErro('Erro ao criar reserva.'));
+    // Log para verificar o conteúdo da reserva antes de enviar
+    console.log('Dados enviados:', novaReserva);
+
+    // Enviando a reserva para o backend com cabeçalho Content-Type configurado
+    api.post('/api/reservas', novaReserva, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => {
+      console.log('Resposta da API:', response.data);
+      setReservas((prevReservas) => [...prevReservas, response.data]);
+      setReservasFiltradas((prevReservasFiltradas) => [...prevReservasFiltradas, response.data]);
+      setNovaReserva({ item: { nome: '', descricao: '' }, dataHora: '', nomeUsuario: '' });
+      setErro('');
+    })
+    .catch((error) => {
+      console.error('Erro detalhado ao criar reserva:', error.response || error);
+      setErro('Erro ao criar reserva.');
+    });
   };
 
   // Deletar reserva
