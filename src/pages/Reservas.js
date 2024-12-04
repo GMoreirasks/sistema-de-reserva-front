@@ -34,8 +34,8 @@ function Reservas() {
     // Enviando a reserva para o backend
     api.post('/api/reservas', novaReserva)
       .then((response) => {
-        setReservas([...reservas, response.data]);
-        setReservasFiltradas([...reservas, response.data]);
+        setReservas((prevReservas) => [...prevReservas, response.data]);
+        setReservasFiltradas((prevReservasFiltradas) => [...prevReservasFiltradas, response.data]);
         setNovaReserva({ item: { nome: '', descricao: '' }, dataHora: '', nomeUsuario: '' });
         setErro('');
       })
@@ -46,8 +46,8 @@ function Reservas() {
   const handleDelete = (id) => {
     api.delete(`/api/reservas/${id}`)
       .then(() => {
-        setReservas(reservas.filter((reserva) => reserva.id !== id));
-        setReservasFiltradas(reservasFiltradas.filter((reserva) => reserva.id !== id));
+        setReservas((prevReservas) => prevReservas.filter((reserva) => reserva.id !== id));
+        setReservasFiltradas((prevReservasFiltradas) => prevReservasFiltradas.filter((reserva) => reserva.id !== id));
       })
       .catch(() => setErro('Erro ao deletar reserva.'));
   };
